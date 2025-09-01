@@ -1,2 +1,2 @@
 # Ignore Python virtual environments
-/myvenv/
+myenv/
