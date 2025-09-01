@@ -13,7 +13,7 @@ void setup() {
 
 void loop() {
   for (int i = 0; i < NUM_LEDS; i++){
-    leds[i] = CRGB::White;
+    leds[i] = CRGB::Green;
     FastLED.show();
     delay(15);
   }
