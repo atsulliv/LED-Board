@@ -7,3 +7,7 @@ myenv/
 # Ignore local cache __pycache__
 __pycache__/
 
+# Ignore .DS_Store
+.DS_Store
+src/.DS_Store
+src/LEDwall_print/.DS_Store
