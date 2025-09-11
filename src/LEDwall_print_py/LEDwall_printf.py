@@ -6,17 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 
-
-# def draw_char(x, y, char, color):
-#     if char not in FONT_5x7:
-#         return
-#     bitmap = FONT_5x7[char]
-#     for row in range(len(bitmap)):
-#         for col in range(len(bitmap[row])):
-#             if bitmap[row][col] == 1:
-#                 index = xy_to_index(row, col)
-#                 set_pixel_snake(index, color)
-
+# function that helps with the display of a single character.
 def draw_char(x, y, char, color):
     """Draw a single 5x7 character at top-left (x,y)"""
     if char not in FONT_5x7:
@@ -31,7 +21,7 @@ def draw_char(x, y, char, color):
                     index = xy_to_index(led_x, led_y)
                     set_pixel_snake(index, color)
 
-
+# draws text based on the series of chars inputted.
 def draw_text(x, y, text, color, spacing=1, line_spacing=1):
     """
     Draw text starting at (x,y) using 5x7 font with wrapping.

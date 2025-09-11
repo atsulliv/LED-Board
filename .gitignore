@@ -1,2 +1,9 @@
 # Ignore Python virtual environments
 myenv/
+
+# Ignore local .vscode directory
+.vscode/
+
+# Ignore local cache __pycache__
+__pycache__/
+

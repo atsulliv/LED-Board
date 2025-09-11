@@ -5,6 +5,7 @@
 #define HEIGHT 16
 #define NUM_LEDS (WIDTH * HEIGHT)
 #define LED_PIN 2
+#define BACKGROUND CRGB::Blue
 
 CRGB leds[NUM_LEDS];
 
@@ -25,6 +26,7 @@ int xy_to_index(int x, int y) {
   }
 }
 
+// given a snake-patterned index, returns a (col, row) Point object.
 Point index_to_xy(int index) {
   Point p;
   int y = index / WIDTH;
@@ -42,18 +44,21 @@ Point index_to_xy(int index) {
   return p;
 }
 
+// sets pixel in code to a specified color.
 void set_pixel(int x, int y, CRGB color) {
   if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT) {
     leds[xy_to_index(x, y)] = color;
   }
 }
 
+// fills all LEDs with a certain color.
 void fill_color(CRGB color) {
   for (int i = 0; i < NUM_LEDS; i++) {
     leds[i] = color;
   }
 }
 
+// fills all LEDs with black.
 void clear() {
   for (int i = 0; i < NUM_LEDS; i++) {
     leds[i] = CRGB::Black;
@@ -62,19 +67,19 @@ void clear() {
 
 void clear_row_one() {
   for (int i = 0; i < NUM_LEDS / 2; i++) {
-    leds[i] = CRGB::Black;
+    leds[i] = BACKGROUND;
   }
 }
 
 void clear_row_two() {
   for (int i = NUM_LEDS / 2; i < NUM_LEDS; i++) {
-    leds[i] = CRGB::Black;
+    leds[i] = BACKGROUND;
   }
 }
 
-
 int char_to_index(char c) {
-  if (c >= 'A' && c <= 'C') return c - 'A'; // A=0, B=1, C=2
+  if (c >= 'A' && c <= 'Z') return c - 'A'; // A=0, B=1, C=2
+  if (c == ' ') return 26;
   return -1; // unsupported char
 }
 
@@ -95,6 +100,44 @@ void drawChar(char c, int xOffset, int yOffset, CRGB color) {
 }
 
 
+// Draw a string with wrapping
+void drawString(const char* text, int xStart, int yStart, CRGB color, int spacing = 1, int lineSpacing = 1) {
+    int cursorX = xStart;
+    int cursorY = yStart;
+    int charWidth = 5;   // width of each character
+    int charHeight = 7;  // height of each character
+
+    for (int i = 0; text[i] != '\0'; i++) {
+        char c = text[i];
+        int idx = char_to_index(c);
+        if (idx < 0) continue; // unsupported char, skip
+
+        // Horizontal wrap
+        if (cursorX + charWidth > WIDTH) {
+            cursorX = 0;
+            cursorY += charHeight + lineSpacing;
+
+            // If we exceed the first line height, clear row two
+            if (cursorY >= charHeight + lineSpacing) {
+                clear_row_two();
+            }
+        }
+
+        // Vertical wrap / circular buffer
+        if (cursorY + charHeight > HEIGHT) {
+            // overwrite first row
+            clear_row_one();
+            cursorY = 0;
+        }
+
+        drawChar(c, cursorX, cursorY, color);
+
+        cursorX += charWidth + spacing;
+    }
+}
+
+
+// setup() and loop() functions in Arduino code below:
 void setup() {
   delay(3000); // Powerup delay
   FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, NUM_LEDS);
@@ -102,11 +145,10 @@ void setup() {
 
 void loop() {
   // clear screen
-  fill_solid(leds, NUM_LEDS, CRGB::Blue);
+  fill_solid(leds, NUM_LEDS, CRGB::White);
 
-  drawChar('A', 2, 2, CRGB::Yellow);
-  drawChar('B', 10, 2, CRGB::Yellow);
-  drawChar('C', 18, 2, CRGB::Yellow);
+  drawString("HOLA ", 0, 0, CRGB::Green);
+  drawString("MEXICO", 0, 8, CRGB::Red);
 
   // push to LEDs
   FastLED.show();
