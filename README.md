@@ -1,7 +1,7 @@
 # LED-Board  
 **Summer 2025 Project by Aidan Sullivan, Yiling Li**  
 
-This project is a custom-built LED display board inspired by [Tech Random’s *How to Build a Massive LED Wall on a Budget*](https://www.youtube.com/watch?v=PiaS8zfuBHo). It combines hardware design, embedded programming, and creative applications for interactive visuals.  
+This project is a custom-built LED display board, with board design inspired by [Tech Random’s *How to Build a Massive LED Wall on a Budget*](https://www.youtube.com/watch?v=PiaS8zfuBHo). This extends the existing board by adding our own flair of embedded programming, and creative applications for interactive visuals.  
 
 ---
 
